@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+const EMAIL = "hunter@xtremery.com";
+
 /* ---------- Reusable building blocks ---------- */
 
 function WhatItIs({ children }: { children: ReactNode }) {
@@ -11,7 +13,7 @@ function WhatItIs({ children }: { children: ReactNode }) {
   );
 }
 
-type Tone = "you" | "dev";
+type Tone = "you" | "hunter";
 
 function ActionBlock({
   tone,
@@ -28,11 +30,13 @@ function ActionBlock({
           wrap: "border-emerald-200 bg-emerald-50/70",
           chip: "bg-emerald-600",
           marker: "marker:text-emerald-500",
+          name: "You",
         }
       : {
           wrap: "border-sky-200 bg-sky-50/70",
           chip: "bg-sky-700",
           marker: "marker:text-sky-500",
+          name: "Hunter",
         };
 
   return (
@@ -40,7 +44,7 @@ function ActionBlock({
       <span
         className={`mb-4 inline-flex items-center gap-2 rounded-full ${styles.chip} px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white`}
       >
-        {tone === "you" ? "You" : "Your developer"}
+        {styles.name}
         <span className="font-medium normal-case opacity-90">— {label}</span>
       </span>
       <div className={`text-[15px] leading-7 text-slate-700 ${styles.marker}`}>
@@ -61,14 +65,30 @@ function Tip({ children }: { children: ReactNode }) {
   );
 }
 
-function DevFillIn({ children }: { children: ReactNode }) {
+function HunterNote({ children }: { children: ReactNode }) {
   return (
-    <div className="rounded-2xl border-2 border-dashed border-amber-300 bg-amber-50/40 p-5">
-      <span className="mb-2 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-amber-700">
-        <span aria-hidden>✏️</span> Developer to fill in
+    <div className="flex gap-3 rounded-2xl border border-indigo-200 bg-indigo-50/60 p-5">
+      <span aria-hidden className="text-lg leading-7">
+        📩
       </span>
-      <p className="text-[15px] italic leading-7 text-slate-600">{children}</p>
+      <div>
+        <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-indigo-700">
+          From Hunter
+        </span>
+        <p className="text-[15px] leading-7 text-indigo-950">{children}</p>
+      </div>
     </div>
+  );
+}
+
+function MailLink({ className = "" }: { className?: string }) {
+  return (
+    <a
+      href={`mailto:${EMAIL}`}
+      className={`font-semibold text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-600 ${className}`}
+    >
+      {EMAIL}
+    </a>
   );
 }
 
@@ -124,7 +144,6 @@ const TOC = [
   { id: "step-4", label: "4 · Other services" },
   { id: "step-5", label: "5 · Confirm it works" },
   { id: "step-6", label: "6 · Lock it down" },
-  { id: "questions", label: "Questions to ask" },
 ];
 
 /* ---------- Page ---------- */
@@ -143,9 +162,12 @@ export default function Home() {
               Website Handoff
             </span>
           </div>
-          <span className="text-sm font-medium text-slate-500">
-            Owner&rsquo;s Guide
-          </span>
+          <a
+            href={`mailto:${EMAIL}`}
+            className="text-sm font-medium text-indigo-700 hover:text-indigo-900"
+          >
+            {EMAIL}
+          </a>
         </div>
       </header>
 
@@ -167,11 +189,21 @@ export default function Home() {
           <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-500">
             Don&rsquo;t worry if you&rsquo;re not technical — most of your job is
             creating a couple of accounts and clicking &ldquo;Accept.&rdquo;
-            Your developer handles all the behind-the-scenes work.
+            I&rsquo;m Hunter, and I handle all the behind-the-scenes work.
+            Whenever a step says to send me something or confirm a transfer,
+            just email me and I&rsquo;ll take it from there.
           </p>
-          <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm">
-            <span aria-hidden>⏱️</span> Set aside about 30–60 minutes — or do it
-            together on a screen-share
+          <div className="mt-8 flex flex-col items-center gap-4">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm">
+              <span aria-hidden>⏱️</span> Set aside about 30–60 minutes — or
+              we can do it together on a screen-share
+            </div>
+            <a
+              href={`mailto:${EMAIL}`}
+              className="inline-flex items-center gap-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-indigo-700"
+            >
+              <span aria-hidden>📩</span> Email me: {EMAIL}
+            </a>
           </div>
         </div>
       </section>
@@ -225,7 +257,7 @@ export default function Home() {
               </ServiceCard>
               <ServiceCard name="Other services">
                 Things like payments, email, or a database, if your site uses
-                them. Your developer will tell you which apply.
+                them. I&rsquo;ll tell you which ones apply to you.
               </ServiceCard>
             </div>
           </section>
@@ -299,15 +331,15 @@ export default function Home() {
                   Check your email and click the link to verify your account.
                 </li>
                 <li>
-                  Send your new <strong>GitHub username</strong> to your
-                  developer.
+                  Email your new <strong>GitHub username</strong> to me at{" "}
+                  <MailLink />.
                 </li>
               </ol>
             </ActionBlock>
-            <ActionBlock tone="dev" label="transfers the code">
+            <ActionBlock tone="hunter" label="transfers the code">
               <p>
-                Transfers the code to your account. You&rsquo;ll receive an
-                email from GitHub asking you to confirm.
+                I&rsquo;ll transfer the code into your account. You&rsquo;ll then
+                get an email from GitHub asking you to confirm.
               </p>
             </ActionBlock>
             <ActionBlock tone="you" label="then accept the transfer">
@@ -346,10 +378,10 @@ export default function Home() {
                 </li>
               </ol>
             </ActionBlock>
-            <ActionBlock tone="dev" label="moves the project to you">
+            <ActionBlock tone="hunter" label="moves the project to you">
               <p>
-                Moves your website project into your Vercel account and
-                reconnects it to your code so automatic updates keep working.
+                I&rsquo;ll move your website project into your Vercel account and
+                reconnect it to your code so automatic updates keep working.
               </p>
             </ActionBlock>
             <ActionBlock tone="you" label="accept and set up billing">
@@ -361,8 +393,8 @@ export default function Home() {
                 <li>
                   <strong>Billing note:</strong> Vercel has a free tier, but
                   business websites usually need a paid plan (often around
-                  $20/month). If prompted, add your payment card. Your developer
-                  can confirm which plan your site needs.
+                  $20/month). If prompted, add your payment card. Just ask me and
+                  I&rsquo;ll confirm which plan your site needs.
                 </li>
               </ol>
             </ActionBlock>
@@ -377,18 +409,18 @@ export default function Home() {
               Domains, or Vercel itself).
             </WhatItIs>
             <p className="text-[15px] leading-7 text-slate-700">
-              What happens here depends on who currently owns the domain. Your
-              developer will tell you which applies:
+              What happens here depends on who currently owns the domain —
+              I&rsquo;ll tell you which of these applies to you:
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                 <h3 className="mb-1.5 font-semibold text-slate-900">
-                  If your developer holds it
+                  If I currently hold it
                 </h3>
                 <p className="text-sm leading-6 text-slate-600">
-                  They&rsquo;ll transfer it to you. This may involve creating an
-                  account at the registrar, or accepting a transfer by email.
-                  Follow their instructions.
+                  I&rsquo;ll transfer it to you. This may involve creating an
+                  account at the registrar, or accepting a transfer by email —
+                  I&rsquo;ll send you the exact steps.
                 </p>
               </div>
               <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -396,16 +428,17 @@ export default function Home() {
                   If you already own it
                 </h3>
                 <p className="text-sm leading-6 text-slate-600">
-                  Nothing to move — your developer just makes sure it points to
-                  your new Vercel project.
+                  Nothing to move — I&rsquo;ll just make sure it points to your
+                  new Vercel project.
                 </p>
               </div>
             </div>
-            <DevFillIn>
-              Where the domain is registered, and what the client needs to do —
-              e.g. &ldquo;Create a Namecheap account and accept the transfer
-              email,&rdquo; or &ldquo;You already own it, no action needed.&rdquo;
-            </DevFillIn>
+            <HunterNote>
+              I&rsquo;ll check where your domain is registered and email you
+              exactly what to do — usually that&rsquo;s either clicking a
+              transfer link or simply confirming you already own it. You
+              won&rsquo;t have to figure it out on your own.
+            </HunterNote>
           </StepCard>
 
           {/* Step 4 */}
@@ -435,16 +468,18 @@ export default function Home() {
               will ask you to verify your business identity and connect a bank
               account, so give yourself extra time for those.
             </p>
-            <DevFillIn>
-              List the specific services this site uses and what the client needs
-              to set up for each. Delete this section if none apply.
-            </DevFillIn>
+            <HunterNote>
+              I&rsquo;ll tell you which of these your site actually uses (if any)
+              and walk you through moving each one into your accounts. If your
+              site doesn&rsquo;t use any of them, there&rsquo;s nothing to do
+              here.
+            </HunterNote>
           </StepCard>
 
           {/* Step 5 */}
           <StepCard num={5} id="step-5" title="Confirm everything works">
             <p className="text-[15px] leading-7 text-slate-700">
-              Once your developer says the handoff is complete:
+              Once I let you know the handoff is complete:
             </p>
             <ActionBlock tone="you" label="test your live site">
               <ol className="list-decimal space-y-2 pl-5">
@@ -457,9 +492,9 @@ export default function Home() {
                   those too.
                 </li>
                 <li>
-                  Ask your developer to make one small change as a test, so you
-                  can both confirm that updates still publish correctly under
-                  your accounts.
+                  Ask me to make one small change as a test, so we can both
+                  confirm that updates still publish correctly under your
+                  accounts.
                 </li>
               </ol>
             </ActionBlock>
@@ -506,34 +541,21 @@ export default function Home() {
             </ul>
           </StepCard>
 
-          {/* Questions */}
-          <section id="questions" className="scroll-mt-28">
-            <h2 className="text-2xl font-bold tracking-tight text-slate-900">
-              A few questions worth asking your developer
+          {/* Contact CTA */}
+          <section className="rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-sm">
+            <h2 className="text-xl font-bold text-slate-900">
+              Stuck on any step?
             </h2>
-            <p className="mt-3 text-base leading-7 text-slate-600">
-              To make sure nothing is missed, ask:
+            <p className="mx-auto mt-2 max-w-md text-slate-600">
+              Don&rsquo;t guess — email me and I&rsquo;ll walk you through it, or
+              we&rsquo;ll hop on a quick screen-share.
             </p>
-            <ol className="mt-6 space-y-3">
-              {[
-                "Which services does my site use that I now need to own? (Step 4)",
-                "Who currently owns my domain, and what do I need to do? (Step 3)",
-                "Are there any monthly costs I should expect, and for which services?",
-                "Once I'm fully set up, am I on my own for changes, or will we have an ongoing arrangement for updates and maintenance?",
-              ].map((q, i) => (
-                <li
-                  key={q}
-                  className="flex gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
-                >
-                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">
-                    {i + 1}
-                  </span>
-                  <span className="text-[15px] leading-7 text-slate-700">
-                    {q}
-                  </span>
-                </li>
-              ))}
-            </ol>
+            <a
+              href={`mailto:${EMAIL}`}
+              className="mt-5 inline-flex items-center gap-2 rounded-full bg-indigo-600 px-6 py-3 font-semibold text-white shadow-sm transition-colors hover:bg-indigo-700"
+            >
+              <span aria-hidden>📩</span> {EMAIL}
+            </a>
           </section>
 
           {/* Closing */}
@@ -549,8 +571,13 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-slate-200 bg-white">
         <div className="mx-auto max-w-6xl px-4 py-8 text-center text-sm text-slate-500 lg:px-8">
-          Your Website Handoff Guide · Keep this page bookmarked until every step
-          is complete.
+          Your Website Handoff Guide · Questions any time:{" "}
+          <a
+            href={`mailto:${EMAIL}`}
+            className="font-medium text-indigo-700 hover:text-indigo-900"
+          >
+            {EMAIL}
+          </a>
         </div>
       </footer>
     </div>
