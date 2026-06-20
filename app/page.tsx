@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
 import { ReadingProgress } from "./components/reading-progress";
 import { TableOfContents } from "./components/table-of-contents";
 import { StepsProvider, ProgressSummary, StepShell } from "./components/steps";
@@ -23,8 +24,8 @@ const EMAIL = "hunter@xtremery.com";
 
 function WhatItIs({ children }: { children: ReactNode }) {
   return (
-    <p className="mb-6 text-base leading-7 text-slate-600">
-      <span className="font-semibold text-slate-900">What it is: </span>
+    <p className="mb-6 text-base leading-7 text-off-white/70">
+      <span className="font-semibold text-off-white">What it is: </span>
       {children}
     </p>
   );
@@ -44,16 +45,16 @@ function ActionBlock({
   const styles =
     tone === "you"
       ? {
-          wrap: "border-emerald-200 bg-emerald-50/60",
-          chip: "bg-emerald-600",
-          marker: "marker:text-emerald-500",
+          wrap: "border-aqua-spark/30 bg-aqua-spark/[0.06]",
+          chip: "bg-aqua-spark text-deep-navy",
+          marker: "marker:text-aqua-spark",
           name: "You",
           icon: <UserIcon className="h-3.5 w-3.5" />,
         }
       : {
-          wrap: "border-sky-200 bg-sky-50/60",
-          chip: "bg-sky-700",
-          marker: "marker:text-sky-500",
+          wrap: "border-xtremery-purple/40 bg-xtremery-purple/10",
+          chip: "bg-xtremery-purple text-white",
+          marker: "marker:text-xtremery-purple",
           name: "Hunter",
           icon: <SendIcon className="h-3.5 w-3.5" />,
         };
@@ -61,13 +62,13 @@ function ActionBlock({
   return (
     <div className={`rounded-2xl border ${styles.wrap} p-5 sm:p-6`}>
       <span
-        className={`mb-4 inline-flex items-center gap-1.5 rounded-full ${styles.chip} px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white`}
+        className={`mb-4 inline-flex items-center gap-1.5 rounded-full ${styles.chip} px-3 py-1 text-xs font-bold uppercase tracking-wide`}
       >
         {styles.icon}
         {styles.name}
         <span className="font-medium normal-case opacity-90">— {label}</span>
       </span>
-      <div className={`text-[15px] leading-7 text-slate-700 ${styles.marker}`}>
+      <div className={`text-[15px] leading-7 text-off-white/80 ${styles.marker}`}>
         {children}
       </div>
     </div>
@@ -76,29 +77,29 @@ function ActionBlock({
 
 function Tip({ children }: { children: ReactNode }) {
   return (
-    <div className="flex gap-3 rounded-2xl border border-amber-200 bg-amber-50/70 p-5">
+    <div className="flex gap-3 rounded-2xl border border-amber-400/30 bg-amber-400/[0.08] p-5">
       <span aria-hidden className="text-lg leading-7">
         💡
       </span>
-      <p className="text-[15px] leading-7 text-amber-900">{children}</p>
+      <p className="text-[15px] leading-7 text-amber-100/90">{children}</p>
     </div>
   );
 }
 
 function HunterNote({ children }: { children: ReactNode }) {
   return (
-    <div className="flex gap-3 rounded-2xl border border-indigo-200 bg-indigo-50/60 p-5">
+    <div className="flex gap-3 rounded-2xl border border-xtremery-purple/40 bg-xtremery-purple/10 p-5">
       <span
         aria-hidden
-        className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-indigo-600 text-white"
+        className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-gradient-to-br from-xtremery-purple to-xtremery-blue text-white"
       >
         <SendIcon className="h-4 w-4" />
       </span>
       <div>
-        <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-indigo-700">
+        <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-aqua-spark">
           From Hunter
         </span>
-        <p className="text-[15px] leading-7 text-indigo-950">{children}</p>
+        <p className="text-[15px] leading-7 text-off-white/85">{children}</p>
       </div>
     </div>
   );
@@ -108,7 +109,7 @@ function MailLink({ className = "" }: { className?: string }) {
   return (
     <a
       href={`mailto:${EMAIL}`}
-      className={`font-semibold text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-600 ${className}`}
+      className={`font-semibold text-aqua-spark underline decoration-aqua-spark/40 underline-offset-2 hover:decoration-aqua-spark ${className}`}
     >
       {EMAIL}
     </a>
@@ -125,16 +126,16 @@ function ServiceCard({
   children: ReactNode;
 }) {
   return (
-    <div className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-md">
+    <div className="group rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-all hover:-translate-y-0.5 hover:border-aqua-spark/40 hover:bg-white/[0.05]">
       <div className="mb-2.5 flex items-center gap-2.5">
         {icon && (
-          <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-slate-100 text-slate-700 transition-colors group-hover:bg-indigo-50 group-hover:text-indigo-700">
+          <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-white/5 text-aqua-spark transition-colors group-hover:bg-aqua-spark/10">
             {icon}
           </span>
         )}
-        <h3 className="font-semibold text-slate-900">{name}</h3>
+        <h3 className="font-semibold text-off-white">{name}</h3>
       </div>
-      <p className="text-sm leading-6 text-slate-600">{children}</p>
+      <p className="text-sm leading-6 text-off-white/65">{children}</p>
     </div>
   );
 }
@@ -250,19 +251,29 @@ export default function Home() {
       <ReadingProgress />
 
       {/* Sticky top bar */}
-      <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/80 backdrop-blur-md">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 lg:px-8">
+      <header className="sticky top-0 z-30 border-b border-white/10 bg-deep-navy/70 backdrop-blur-md">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 lg:px-8">
           <div className="flex items-center gap-2.5">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-sm">
-              <ShieldIcon className="h-4 w-4" />
-            </span>
-            <span className="font-semibold tracking-tight text-slate-900">
-              Website Handoff
+            <Image
+              src="/xtremery-icon.png"
+              alt="Xtremery"
+              width={28}
+              height={32}
+              className="h-7 w-auto"
+              priority
+            />
+            <span className="flex items-baseline gap-2">
+              <span className="font-bold tracking-tight text-off-white">
+                Xtremery
+              </span>
+              <span className="hidden text-sm font-medium text-off-white/45 sm:inline">
+                · Website Handoff
+              </span>
             </span>
           </div>
           <a
             href={`mailto:${EMAIL}`}
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-700 hover:text-indigo-900"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-aqua-spark hover:text-white"
           >
             <MailIcon className="h-4 w-4" />
             <span className="hidden sm:inline">{EMAIL}</span>
@@ -271,30 +282,34 @@ export default function Home() {
       </header>
 
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-slate-200 bg-white">
+      <section className="relative overflow-hidden border-b border-white/10">
         <div aria-hidden className="hero-grid absolute inset-0" />
         <div
           aria-hidden
-          className="absolute left-1/2 top-0 -z-0 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-gradient-to-r from-indigo-200/40 via-violet-200/40 to-sky-200/40 blur-3xl"
+          className="absolute -left-20 top-0 h-72 w-72 rounded-full bg-xtremery-purple/25 blur-[120px]"
+        />
+        <div
+          aria-hidden
+          className="absolute -right-20 top-10 h-80 w-80 rounded-full bg-aqua-spark/10 blur-[120px]"
         />
         <div className="relative mx-auto max-w-3xl px-4 py-16 text-center lg:py-24">
-          <span className="mb-5 inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-700 shadow-sm backdrop-blur">
+          <span className="mb-5 inline-flex items-center gap-1.5 rounded-full border border-aqua-spark/30 bg-aqua-spark/[0.06] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-aqua-spark">
             <ShieldIcon className="h-3.5 w-3.5" />
             Ownership Handoff
           </span>
-          <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+          <h1 className="text-4xl font-bold tracking-tight text-off-white sm:text-5xl">
             Your Website{" "}
-            <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-xtremery-purple via-xtremery-blue to-aqua-spark bg-clip-text text-transparent">
               Handoff Guide
             </span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-off-white/75">
             This guide walks you through taking full ownership of your website.
             By the end, every account will be in <strong>your</strong> name, on{" "}
             <strong>your</strong> billing, and you&rsquo;ll be in complete
             control.
           </p>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-500">
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-off-white/55">
             Don&rsquo;t worry if you&rsquo;re not technical — most of your job is
             creating a couple of accounts and clicking &ldquo;Accept.&rdquo;
             I&rsquo;m Hunter, and I handle all the behind-the-scenes work.
@@ -304,20 +319,20 @@ export default function Home() {
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
               href={`mailto:${EMAIL}`}
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/25 transition-transform hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 rounded-full bg-aqua-spark px-6 py-3 text-sm font-bold text-deep-navy shadow-lg shadow-aqua-spark/20 transition-all hover:scale-105 hover:bg-white"
             >
               <MailIcon className="h-4 w-4" /> Email me: {EMAIL}
             </a>
             <a
               href="#step-1"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-slate-300 hover:bg-slate-50"
+              className="inline-flex items-center gap-2 rounded-full border border-aqua-spark/40 bg-white/5 px-6 py-3 text-sm font-semibold text-off-white transition-colors hover:bg-white/10"
             >
               Start with Step 1 <ArrowRightIcon className="h-4 w-4" />
             </a>
           </div>
-          <div className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-slate-500">
-            <ClockIcon className="h-4 w-4" /> About 30–60 minutes — or we can do
-            it together on a screen-share
+          <div className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-off-white/50">
+            <ClockIcon className="h-4 w-4 text-aqua-spark" /> About 30–60 minutes
+            — or we can do it together on a screen-share
           </div>
         </div>
       </section>
@@ -330,10 +345,10 @@ export default function Home() {
         <article className="max-w-3xl">
           {/* What you'll own */}
           <section id="owning" className="scroll-mt-28">
-            <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+            <h2 className="text-2xl font-bold tracking-tight text-off-white">
               What you&rsquo;ll end up owning
             </h2>
-            <p className="mt-3 text-base leading-7 text-slate-600">
+            <p className="mt-3 text-base leading-7 text-off-white/70">
               Your website is made of a few separate pieces, each living in its
               own service. Here&rsquo;s the plain-English version — the goal is
               to move all of these into accounts that belong to you.
@@ -364,10 +379,10 @@ export default function Home() {
 
           {/* Checklist */}
           <section id="checklist" className="mt-16 scroll-mt-28">
-            <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+            <h2 className="text-2xl font-bold tracking-tight text-off-white">
               Before you start — a quick checklist
             </h2>
-            <p className="mt-3 text-base leading-7 text-slate-600">
+            <p className="mt-3 text-base leading-7 text-off-white/70">
               Have these ready:
             </p>
             <ul className="mt-6 space-y-3">
@@ -391,16 +406,16 @@ export default function Home() {
               ].map((item) => (
                 <li
                   key={item.t}
-                  className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
+                  className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4"
                 >
                   <span
                     aria-hidden
-                    className="mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded-md bg-emerald-100 text-emerald-700"
+                    className="mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded-md bg-aqua-spark/15 text-aqua-spark"
                   >
                     <CheckIcon className="h-3.5 w-3.5" />
                   </span>
-                  <span className="text-[15px] leading-7 text-slate-700">
-                    <span className="font-semibold text-slate-900">
+                  <span className="text-[15px] leading-7 text-off-white/75">
+                    <span className="font-semibold text-off-white">
                       {item.t}
                     </span>{" "}
                     {item.d}
@@ -417,7 +432,7 @@ export default function Home() {
             </div>
 
             {/* Steps — connected by a vertical timeline rail */}
-            <div className="relative mt-10 space-y-16 before:absolute before:left-6 before:top-3 before:bottom-3 before:w-px before:bg-gradient-to-b before:from-indigo-200 before:via-slate-200 before:to-transparent">
+            <div className="relative mt-10 space-y-16 before:absolute before:left-6 before:top-3 before:bottom-3 before:w-px before:bg-gradient-to-b before:from-xtremery-purple before:via-xtremery-blue/40 before:to-transparent">
             {/* Step 1 */}
             <StepShell
               num={1}
@@ -538,26 +553,26 @@ export default function Home() {
                 called a &ldquo;registrar&rdquo; (such as GoDaddy, Namecheap,
                 Google Domains, or Vercel itself).
               </WhatItIs>
-              <p className="text-[15px] leading-7 text-slate-700">
+              <p className="text-[15px] leading-7 text-off-white/80">
                 What happens here depends on who currently owns the domain —
                 I&rsquo;ll tell you which of these applies to you:
               </p>
               <div className="grid gap-4 sm:grid-cols-2">
-                <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                  <h3 className="mb-1.5 font-semibold text-slate-900">
+                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+                  <h3 className="mb-1.5 font-semibold text-off-white">
                     If I currently hold it
                   </h3>
-                  <p className="text-sm leading-6 text-slate-600">
+                  <p className="text-sm leading-6 text-off-white/65">
                     I&rsquo;ll transfer it to you. This may involve creating an
                     account at the registrar, or accepting a transfer by email —
                     I&rsquo;ll send you the exact steps.
                   </p>
                 </div>
-                <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                  <h3 className="mb-1.5 font-semibold text-slate-900">
+                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+                  <h3 className="mb-1.5 font-semibold text-off-white">
                     If you already own it
                   </h3>
-                  <p className="text-sm leading-6 text-slate-600">
+                  <p className="text-sm leading-6 text-off-white/65">
                     Nothing to move — I&rsquo;ll just make sure it points to your
                     new Vercel project.
                   </p>
@@ -580,7 +595,7 @@ export default function Home() {
               title="Other services — only if your site uses them"
               icon={<LayersIcon className="h-5 w-5" />}
             >
-              <p className="text-[15px] leading-7 text-slate-700">
+              <p className="text-[15px] leading-7 text-off-white/80">
                 Some websites rely on extra services. Common ones include:
               </p>
               <div className="grid gap-4 sm:grid-cols-3">
@@ -595,7 +610,7 @@ export default function Home() {
                   If your site sends confirmations or notifications.
                 </ServiceCard>
               </div>
-              <p className="text-[15px] leading-7 text-slate-700">
+              <p className="text-[15px] leading-7 text-off-white/80">
                 If your site uses any of these, they need to be moved into your
                 own accounts too. Some — especially{" "}
                 <strong>payment services</strong> — will ask you to verify your
@@ -619,7 +634,7 @@ export default function Home() {
               title="Confirm everything works"
               icon={<CheckIcon className="h-5 w-5" />}
             >
-              <p className="text-[15px] leading-7 text-slate-700">
+              <p className="text-[15px] leading-7 text-off-white/80">
                 Once I let you know the handoff is complete:
               </p>
               <ActionBlock tone="you" label="test your live site">
@@ -651,7 +666,7 @@ export default function Home() {
               title="Lock it down (important)"
               icon={<LockIcon className="h-5 w-5" />}
             >
-              <p className="text-[15px] leading-7 text-slate-700">
+              <p className="text-[15px] leading-7 text-off-white/80">
                 Now that everything is yours, protect it:
               </p>
               <ul className="space-y-3">
@@ -671,16 +686,16 @@ export default function Home() {
                 ].map((item) => (
                   <li
                     key={item.t}
-                    className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
+                    className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4"
                   >
                     <span
                       aria-hidden
-                      className="mt-0.5 flex h-7 w-7 flex-none items-center justify-center rounded-full bg-indigo-100 text-indigo-700"
+                      className="mt-0.5 flex h-7 w-7 flex-none items-center justify-center rounded-full bg-aqua-spark/15 text-aqua-spark"
                     >
                       <LockIcon className="h-4 w-4" />
                     </span>
-                    <span className="text-[15px] leading-7 text-slate-700">
-                      <span className="font-semibold text-slate-900">
+                    <span className="text-[15px] leading-7 text-off-white/75">
+                      <span className="font-semibold text-off-white">
                         {item.t}
                       </span>{" "}
                       {item.d}
@@ -691,62 +706,71 @@ export default function Home() {
             </StepShell>
             </div>
 
-          {/* Contact CTA */}
-          <section className="relative mt-16 overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 to-violet-600 p-8 text-center shadow-xl shadow-indigo-600/20">
-            <div
-              aria-hidden
-              className="absolute -right-12 -top-12 h-48 w-48 rounded-full bg-white/10 blur-2xl"
-            />
-            <div className="relative">
-              <span className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 text-white backdrop-blur">
-                <MailIcon className="h-6 w-6" />
-              </span>
-              <h2 className="text-xl font-bold text-white">
-                Stuck on any step?
-              </h2>
-              <p className="mx-auto mt-2 max-w-md text-indigo-100">
-                Don&rsquo;t guess — email me and I&rsquo;ll walk you through it,
-                or we&rsquo;ll hop on a quick screen-share.
-              </p>
-              <a
-                href={`mailto:${EMAIL}`}
-                className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-semibold text-indigo-700 shadow-sm transition-transform hover:-translate-y-0.5"
-              >
-                <MailIcon className="h-4 w-4" /> {EMAIL}
-              </a>
-            </div>
-          </section>
+            {/* Contact CTA */}
+            <section className="relative mt-16 overflow-hidden rounded-3xl border border-aqua-spark/20 bg-gradient-to-br from-xtremery-purple via-xtremery-blue to-deep-navy p-8 text-center shadow-xl shadow-xtremery-purple/20">
+              <div
+                aria-hidden
+                className="absolute -right-12 -top-12 h-48 w-48 rounded-full bg-aqua-spark/20 blur-3xl"
+              />
+              <div className="relative">
+                <span className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 text-aqua-spark backdrop-blur">
+                  <MailIcon className="h-6 w-6" />
+                </span>
+                <h2 className="text-xl font-bold text-white">
+                  Stuck on any step?
+                </h2>
+                <p className="mx-auto mt-2 max-w-md text-off-white/80">
+                  Don&rsquo;t guess — email me and I&rsquo;ll walk you through
+                  it, or we&rsquo;ll hop on a quick screen-share.
+                </p>
+                <a
+                  href={`mailto:${EMAIL}`}
+                  className="mt-5 inline-flex items-center gap-2 rounded-full bg-aqua-spark px-6 py-3 font-bold text-deep-navy shadow-lg shadow-aqua-spark/20 transition-all hover:scale-105 hover:bg-white"
+                >
+                  <MailIcon className="h-4 w-4" /> {EMAIL}
+                </a>
+              </div>
+            </section>
 
-          {/* Closing — also the scroll target after the final step */}
-          <section
-            id="finish"
-            className="mt-6 flex scroll-mt-28 items-center gap-4 rounded-3xl border border-emerald-200 bg-emerald-50 p-8"
-          >
-            <span
-              aria-hidden
-              className="flex h-12 w-12 flex-none items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-sm"
+            {/* Closing — also the scroll target after the final step */}
+            <section
+              id="finish"
+              className="mt-6 flex scroll-mt-28 items-center gap-4 rounded-3xl border border-aqua-spark/30 bg-aqua-spark/[0.06] p-8"
             >
-              <CheckIcon className="h-6 w-6" />
-            </span>
-            <p className="text-lg font-medium leading-8 text-emerald-900">
-              Once every step is done and confirmed, you own your website
-              outright — code, hosting, address, and all.
-            </p>
-          </section>
+              <span
+                aria-hidden
+                className="flex h-12 w-12 flex-none items-center justify-center rounded-2xl bg-aqua-spark text-deep-navy shadow-lg shadow-aqua-spark/20"
+              >
+                <CheckIcon className="h-6 w-6" />
+              </span>
+              <p className="text-lg font-medium leading-8 text-off-white">
+                Once every step is done and confirmed, you own your website
+                outright — code, hosting, address, and all.
+              </p>
+            </section>
           </StepsProvider>
         </article>
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200 bg-white">
-        <div className="mx-auto max-w-6xl px-4 py-8 text-center text-sm text-slate-500 lg:px-8">
-          Your Website Handoff Guide · Questions any time:{" "}
-          <a
-            href={`mailto:${EMAIL}`}
-            className="font-medium text-indigo-700 hover:text-indigo-900"
-          >
-            {EMAIL}
-          </a>
+      <footer className="border-t border-white/10 bg-deep-navy/40">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-2 px-4 py-8 text-center text-sm text-off-white/50 lg:px-8">
+          <Image
+            src="/xtremery-icon.png"
+            alt="Xtremery"
+            width={24}
+            height={27}
+            className="h-6 w-auto opacity-80"
+          />
+          <p>
+            Your Website Handoff Guide · Questions any time:{" "}
+            <a
+              href={`mailto:${EMAIL}`}
+              className="font-medium text-aqua-spark hover:text-white"
+            >
+              {EMAIL}
+            </a>
+          </p>
         </div>
       </footer>
     </div>

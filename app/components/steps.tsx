@@ -107,15 +107,15 @@ export function ProgressSummary() {
   const allDone = completedCount === total && total > 0;
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+          <p className="text-xs font-semibold uppercase tracking-wider text-off-white/40">
             Your progress
           </p>
-          <p className="mt-0.5 text-lg font-bold text-slate-900">
+          <p className="mt-0.5 text-lg font-bold text-off-white">
             {allDone ? (
-              <span className="text-emerald-600">All steps complete 🎉</span>
+              <span className="text-aqua-spark">All steps complete 🎉</span>
             ) : (
               <>
                 {/* suppressHydrationWarning: count fills in once saved progress loads */}
@@ -129,19 +129,19 @@ export function ProgressSummary() {
           <button
             type="button"
             onClick={reset}
-            className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-500 transition-colors hover:bg-slate-50 hover:text-slate-700"
+            className="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-1.5 text-xs font-medium text-off-white/60 transition-colors hover:bg-white/5 hover:text-off-white"
           >
             <RotateIcon className="h-3.5 w-3.5" /> Reset
           </button>
         )}
       </div>
-      <div className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-slate-100">
+      <div className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-white/10">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-[width] duration-500 ease-out"
+          className="h-full rounded-full bg-gradient-to-r from-xtremery-purple via-xtremery-blue to-aqua-spark transition-[width] duration-500 ease-out"
           style={{ width: hydrated ? `${pct}%` : "0%" }}
         />
       </div>
-      <p className="mt-3 text-sm leading-6 text-slate-500">
+      <p className="mt-3 text-sm leading-6 text-off-white/55">
         {allDone
           ? "Nice work — you own every piece now. Keep this page handy until you've finished locking things down."
           : "Tick off each step as you go. Your progress is saved on this device, so you can come back any time."}
@@ -197,24 +197,24 @@ export function StepShell({
       {/* Header */}
       <div className="mb-5 flex items-center gap-4">
         <span
-          className={`relative flex h-12 w-12 flex-none items-center justify-center rounded-2xl text-white shadow-lg ring-8 ring-[var(--background)] transition-colors ${
+          className={`relative flex h-12 w-12 flex-none items-center justify-center rounded-2xl shadow-lg ring-8 ring-[var(--background)] transition-colors ${
             done
-              ? "bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-emerald-600/20"
-              : "bg-gradient-to-br from-indigo-600 to-violet-600 shadow-indigo-600/20"
+              ? "bg-aqua-spark text-deep-navy shadow-aqua-spark/25"
+              : "bg-gradient-to-br from-xtremery-purple to-xtremery-blue text-white shadow-xtremery-purple/30"
           }`}
         >
           {done ? <CheckIcon className="h-5 w-5" /> : icon}
-          <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-white text-[11px] font-bold text-indigo-700 shadow ring-1 ring-slate-200">
+          <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-deep-navy text-[11px] font-bold text-aqua-spark ring-1 ring-aqua-spark/40">
             {num}
           </span>
         </span>
-        <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+        <h2 className="text-2xl font-bold tracking-tight text-off-white">
           {title}
         </h2>
         {done && (
           <span
             suppressHydrationWarning
-            className="ml-auto hidden items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700 sm:inline-flex"
+            className="ml-auto hidden items-center gap-1 rounded-full bg-aqua-spark/15 px-2.5 py-1 text-xs font-semibold text-aqua-spark sm:inline-flex"
           >
             <CheckIcon className="h-3 w-3" /> Done
           </span>
@@ -225,10 +225,10 @@ export function StepShell({
       <div className="space-y-4">{children}</div>
 
       {/* Flow footer */}
-      <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+      <div className="mt-5 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
         {done ? (
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <span className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-700">
+            <span className="inline-flex items-center gap-2 text-sm font-semibold text-aqua-spark">
               <CheckIcon className="h-4 w-4" /> You marked this step done.
             </span>
             <div className="flex items-center gap-2">
@@ -236,7 +236,7 @@ export function StepShell({
                 <button
                   type="button"
                   onClick={() => scrollTo(nextId)}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-slate-200 transition-colors hover:bg-slate-50"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-4 py-2 text-sm font-medium text-off-white ring-1 ring-white/15 transition-colors hover:bg-white/10"
                 >
                   Next step <ArrowRightIcon className="h-4 w-4" />
                 </button>
@@ -244,7 +244,7 @@ export function StepShell({
               <button
                 type="button"
                 onClick={() => setDone(id, false)}
-                className="text-sm font-medium text-slate-400 underline-offset-2 hover:text-slate-600 hover:underline"
+                className="text-sm font-medium text-off-white/40 underline-offset-2 hover:text-off-white/70 hover:underline"
               >
                 Undo
               </button>
@@ -252,14 +252,14 @@ export function StepShell({
           </div>
         ) : (
           <div>
-            <p className="mb-3 text-sm font-medium text-slate-600">
+            <p className="mb-3 text-sm font-medium text-off-white/70">
               How did this step go?
             </p>
             <div className="flex flex-col gap-2.5 sm:flex-row">
               <button
                 type="button"
                 onClick={handleDid}
-                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700"
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-aqua-spark px-5 py-2.5 text-sm font-bold text-deep-navy shadow-lg shadow-aqua-spark/20 transition-all hover:scale-[1.02] hover:bg-white"
               >
                 <CheckIcon className="h-4 w-4" />
                 {isLast ? "I did this — finish" : "I did this — next step"}
@@ -268,7 +268,7 @@ export function StepShell({
                 type="button"
                 onClick={() => setShowHelp((v) => !v)}
                 aria-expanded={showHelp}
-                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 sm:flex-none"
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-sm font-semibold text-off-white transition-colors hover:bg-white/10 sm:flex-none"
               >
                 I hit a snag
                 <ChevronDownIcon
@@ -283,31 +283,31 @@ export function StepShell({
 
         {/* Troubleshooting panel */}
         {showHelp && !done && (
-          <div className="mt-4 border-t border-slate-200 pt-4">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+          <div className="mt-4 border-t border-white/10 pt-4">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-off-white/40">
               Common hang-ups
             </p>
             <ul className="space-y-3">
               {troubleshooting.map((item) => (
                 <li
                   key={item.q}
-                  className="rounded-xl border border-slate-200 bg-white p-3.5"
+                  className="rounded-xl border border-white/10 bg-deep-navy/40 p-3.5"
                 >
-                  <p className="text-sm font-semibold text-slate-900">
+                  <p className="text-sm font-semibold text-off-white">
                     {item.q}
                   </p>
-                  <p className="mt-1 text-sm leading-6 text-slate-600">
+                  <p className="mt-1 text-sm leading-6 text-off-white/65">
                     {item.a}
                   </p>
                 </li>
               ))}
             </ul>
-            <p className="mt-3 flex items-center gap-1.5 text-sm text-slate-500">
-              <MailIcon className="h-4 w-4 flex-none text-indigo-600" />
+            <p className="mt-3 flex items-center gap-1.5 text-sm text-off-white/55">
+              <MailIcon className="h-4 w-4 flex-none text-aqua-spark" />
               Still stuck? Email me at{" "}
               <a
                 href={`mailto:${EMAIL}`}
-                className="font-semibold text-indigo-700 hover:text-indigo-900"
+                className="font-semibold text-aqua-spark hover:text-white"
               >
                 {EMAIL}
               </a>{" "}

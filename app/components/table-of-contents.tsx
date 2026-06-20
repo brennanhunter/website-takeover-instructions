@@ -33,10 +33,10 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
       aria-label="Contents"
       className="hidden lg:sticky lg:top-24 lg:block lg:self-start"
     >
-      <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+      <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-off-white/40">
         On this page
       </p>
-      <ul className="space-y-0.5 border-l border-slate-200">
+      <ul className="space-y-0.5 border-l border-white/10">
         {items.map((item) => {
           const isActive = active === item.id;
           return (
@@ -46,8 +46,8 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
                 aria-current={isActive ? "true" : undefined}
                 className={`-ml-px flex items-center border-l-2 py-1.5 pl-4 text-sm transition-colors ${
                   isActive
-                    ? "border-indigo-600 font-semibold text-indigo-700"
-                    : "border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-800"
+                    ? "border-aqua-spark font-semibold text-aqua-spark"
+                    : "border-transparent text-off-white/50 hover:border-white/30 hover:text-off-white"
                 }`}
               >
                 {item.label}
