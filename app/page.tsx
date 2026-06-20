@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { ReadingProgress } from "./components/reading-progress";
 import { TableOfContents } from "./components/table-of-contents";
+import { StepsProvider, ProgressSummary, StepShell } from "./components/steps";
 import {
   ArrowRightIcon,
   CheckIcon,
@@ -114,38 +115,6 @@ function MailLink({ className = "" }: { className?: string }) {
   );
 }
 
-function StepCard({
-  num,
-  id,
-  title,
-  icon,
-  children,
-}: {
-  num: number;
-  id: string;
-  title: string;
-  icon: ReactNode;
-  children: ReactNode;
-}) {
-  return (
-    <section id={id} className="scroll-mt-28">
-      <div className="mb-5 flex items-center gap-4">
-        {/* Numbered node sitting on the timeline rail */}
-        <span className="relative flex h-12 w-12 flex-none items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/20 ring-8 ring-[var(--background)]">
-          {icon}
-          <span className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-white text-[11px] font-bold text-indigo-700 shadow ring-1 ring-slate-200">
-            {num}
-          </span>
-        </span>
-        <h2 className="text-2xl font-bold tracking-tight text-slate-900">
-          {title}
-        </h2>
-      </div>
-      <div className="space-y-4">{children}</div>
-    </section>
-  );
-}
-
 function ServiceCard({
   name,
   icon,
@@ -182,6 +151,96 @@ const TOC = [
   { id: "step-5", label: "5 · Confirm it works" },
   { id: "step-6", label: "6 · Lock it down" },
 ];
+
+const STEP_IDS = ["step-1", "step-2", "step-3", "step-4", "step-5", "step-6"];
+
+/* Common hang-ups shown when someone clicks "I hit a snag" on a step. */
+const TROUBLE: Record<string, { q: string; a: string }[]> = {
+  "step-1": [
+    {
+      q: "I didn't get the verification email from GitHub.",
+      a: "Check your spam/junk folder first. If it's not there, sign in to github.com, click your avatar → Settings → Emails, and use “Resend verification.” Double-check the address was typed correctly.",
+    },
+    {
+      q: "The email asking me to accept the code transfer never arrived.",
+      a: "That one only comes after I start the transfer on my end — it's sent from notifications@github.com. Give it a few minutes and check spam. If it's still missing, email me and I'll re-send it.",
+    },
+    {
+      q: "It's asking me to type the project's name and won't accept it.",
+      a: "Type it exactly as shown, with no extra spaces — easiest is to copy and paste it straight from the on-screen text.",
+    },
+    {
+      q: "My preferred username is already taken.",
+      a: "Add your city or a short word (e.g. acmeplumbing-fl). Whatever you land on is fine — just send it my way.",
+    },
+  ],
+  "step-2": [
+    {
+      q: "“Continue with GitHub” didn't do anything / a popup got blocked.",
+      a: "Allow popups for vercel.com and try again. If it seems stuck, refresh the page — you may already be signed in.",
+    },
+    {
+      q: "It's asking me to create or pick a “team.”",
+      a: "Choose the personal/hobby option for now. I'll help you sort out the right plan when I move the project over.",
+    },
+    {
+      q: "I don't see any project to accept.",
+      a: "I have to send it first. Once you've signed in with GitHub, email me the address on your Vercel account and I'll push the transfer to you.",
+    },
+    {
+      q: "It's forcing me to enter a payment card.",
+      a: "That's the paid-plan prompt. Check with me on which plan your site actually needs before you enter any card details.",
+    },
+  ],
+  "step-3": [
+    {
+      q: "I don't know where my domain is registered.",
+      a: "No problem — that's mine to figure out. Just ask and I'll look it up and tell you exactly what (if anything) you need to do.",
+    },
+    {
+      q: "I got a domain-transfer email with an “authorization code.”",
+      a: "Don't ignore it — forward it to me or follow the steps I sent. Those codes can expire in a few days, so sooner is better.",
+    },
+    {
+      q: "The site loads, but the web address looks wrong or old.",
+      a: "Domain changes can take a few hours to spread across the internet. If it still looks wrong after a day, email me and I'll check the settings.",
+    },
+  ],
+  "step-4": [
+    {
+      q: "I'm not sure whether my site even uses these.",
+      a: "You don't need to know — I'll tell you exactly which ones apply to your site, or confirm there's nothing to do here.",
+    },
+    {
+      q: "Stripe is asking for business details and bank info.",
+      a: "That's normal for taking payments. Have your business name, tax ID (EIN, or SSN if you're a sole proprietor), and a bank account ready.",
+    },
+    {
+      q: "I'm being asked to verify my identity with a photo ID.",
+      a: "Expected for payment processors — it protects your payouts. Use a real government ID and a clear photo.",
+    },
+  ],
+  "step-5": [
+    {
+      q: "A page looks broken or an image is missing.",
+      a: "Tell me which page and what you saw — I'll fix it before we call the handoff done.",
+    },
+    {
+      q: "The contact form or checkout didn't work when I tested it.",
+      a: "Send me what you did and what happened. Catching this now is exactly what this step is for.",
+    },
+  ],
+  "step-6": [
+    {
+      q: "I can't find where to turn on two-factor authentication.",
+      a: "GitHub: avatar → Settings → Password and authentication. Vercel: avatar → Settings → Authentication. Want to do it together? I'll hop on a screen-share.",
+    },
+    {
+      q: "What am I supposed to do with the recovery codes?",
+      a: "Save them in your password manager (or print them and store them somewhere safe). They're how you get back in if you ever lose your phone.",
+    },
+  ],
+};
 
 /* ---------- Page ---------- */
 
@@ -351,12 +410,20 @@ export default function Home() {
             </ul>
           </section>
 
-          {/* Steps — connected by a vertical timeline rail */}
-          <div className="relative mt-16 space-y-16 before:absolute before:left-6 before:top-3 before:bottom-3 before:w-px before:bg-gradient-to-b before:from-indigo-200 before:via-slate-200 before:to-transparent">
+          {/* Interactive step flow: progress + per-step "did this / hit a snag" */}
+          <StepsProvider stepIds={STEP_IDS}>
+            <div className="mt-16">
+              <ProgressSummary />
+            </div>
+
+            {/* Steps — connected by a vertical timeline rail */}
+            <div className="relative mt-10 space-y-16 before:absolute before:left-6 before:top-3 before:bottom-3 before:w-px before:bg-gradient-to-b before:from-indigo-200 before:via-slate-200 before:to-transparent">
             {/* Step 1 */}
-            <StepCard
+            <StepShell
               num={1}
               id="step-1"
+              nextId="step-2"
+              troubleshooting={TROUBLE["step-1"]}
               title="GitHub — your website's code"
               icon={<GitHubIcon className="h-5 w-5" />}
             >
@@ -404,12 +471,14 @@ export default function Home() {
                 you&rsquo;re always looking for &ldquo;Accept&rdquo; or
                 &ldquo;Confirm.&rdquo;
               </Tip>
-            </StepCard>
+            </StepShell>
 
             {/* Step 2 */}
-            <StepCard
+            <StepShell
               num={2}
               id="step-2"
+              nextId="step-3"
+              troubleshooting={TROUBLE["step-2"]}
               title="Vercel — what makes your site live"
               icon={<VercelIcon className="h-5 w-5" />}
             >
@@ -452,12 +521,14 @@ export default function Home() {
                   </li>
                 </ol>
               </ActionBlock>
-            </StepCard>
+            </StepShell>
 
             {/* Step 3 */}
-            <StepCard
+            <StepShell
               num={3}
               id="step-3"
+              nextId="step-4"
+              troubleshooting={TROUBLE["step-3"]}
               title="Your domain name — your web address"
               icon={<GlobeIcon className="h-5 w-5" />}
             >
@@ -498,12 +569,14 @@ export default function Home() {
                 transfer link or simply confirming you already own it. You
                 won&rsquo;t have to figure it out on your own.
               </HunterNote>
-            </StepCard>
+            </StepShell>
 
             {/* Step 4 */}
-            <StepCard
+            <StepShell
               num={4}
               id="step-4"
+              nextId="step-5"
+              troubleshooting={TROUBLE["step-4"]}
               title="Other services — only if your site uses them"
               icon={<LayersIcon className="h-5 w-5" />}
             >
@@ -535,12 +608,14 @@ export default function Home() {
                 your site doesn&rsquo;t use any of them, there&rsquo;s nothing to
                 do here.
               </HunterNote>
-            </StepCard>
+            </StepShell>
 
             {/* Step 5 */}
-            <StepCard
+            <StepShell
               num={5}
               id="step-5"
+              nextId="step-6"
+              troubleshooting={TROUBLE["step-5"]}
               title="Confirm everything works"
               icon={<CheckIcon className="h-5 w-5" />}
             >
@@ -564,12 +639,15 @@ export default function Home() {
                   </li>
                 </ol>
               </ActionBlock>
-            </StepCard>
+            </StepShell>
 
             {/* Step 6 */}
-            <StepCard
+            <StepShell
               num={6}
               id="step-6"
+              nextId="finish"
+              isLast
+              troubleshooting={TROUBLE["step-6"]}
               title="Lock it down (important)"
               icon={<LockIcon className="h-5 w-5" />}
             >
@@ -610,8 +688,8 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-            </StepCard>
-          </div>
+            </StepShell>
+            </div>
 
           {/* Contact CTA */}
           <section className="relative mt-16 overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 to-violet-600 p-8 text-center shadow-xl shadow-indigo-600/20">
@@ -639,8 +717,11 @@ export default function Home() {
             </div>
           </section>
 
-          {/* Closing */}
-          <section className="mt-6 flex items-center gap-4 rounded-3xl border border-emerald-200 bg-emerald-50 p-8">
+          {/* Closing — also the scroll target after the final step */}
+          <section
+            id="finish"
+            className="mt-6 flex scroll-mt-28 items-center gap-4 rounded-3xl border border-emerald-200 bg-emerald-50 p-8"
+          >
             <span
               aria-hidden
               className="flex h-12 w-12 flex-none items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-sm"
@@ -652,6 +733,7 @@ export default function Home() {
               outright — code, hosting, address, and all.
             </p>
           </section>
+          </StepsProvider>
         </article>
       </div>
 

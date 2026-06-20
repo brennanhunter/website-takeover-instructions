@@ -136,3 +136,20 @@ export function ArrowRightIcon({ className }: IconProps) {
     </Line>
   );
 }
+
+export function ChevronDownIcon({ className }: IconProps) {
+  return (
+    <Line className={className}>
+      <path d="m6 9 6 6 6-6" />
+    </Line>
+  );
+}
+
+export function RotateIcon({ className }: IconProps) {
+  return (
+    <Line className={className}>
+      <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
+      <path d="M3 3v5h5" />
+    </Line>
+  );
+}
