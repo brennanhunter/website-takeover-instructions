@@ -86,6 +86,25 @@ function Tip({ children }: { children: ReactNode }) {
   );
 }
 
+function Reassure({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex gap-3 rounded-2xl border border-aqua-spark/30 bg-aqua-spark/[0.06] p-5">
+      <span
+        aria-hidden
+        className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-aqua-spark/15 text-aqua-spark"
+      >
+        <ShieldIcon className="h-4 w-4" />
+      </span>
+      <div>
+        <span className="mb-1 block text-xs font-bold uppercase tracking-wide text-aqua-spark">
+          If something looks broken
+        </span>
+        <p className="text-[15px] leading-7 text-off-white/85">{children}</p>
+      </div>
+    </div>
+  );
+}
+
 function HunterNote({ children }: { children: ReactNode }) {
   return (
     <div className="flex gap-3 rounded-2xl border border-xtremery-purple/40 bg-xtremery-purple/10 p-5">
@@ -536,6 +555,15 @@ export default function Home() {
                   </li>
                 </ol>
               </ActionBlock>
+              <Reassure>
+                If a deploy ever shows a screen full of red error text,
+                don&rsquo;t panic and don&rsquo;t change anything. It almost
+                always just means one of the site&rsquo;s settings (an
+                &ldquo;environment variable&rdquo;) hasn&rsquo;t been copied into
+                the new account yet — completely normal when a site moves. Take a
+                screenshot, email it to me, and I&rsquo;ll have it sorted
+                quickly.
+              </Reassure>
             </StepShell>
 
             {/* Step 3 */}
@@ -619,9 +647,13 @@ export default function Home() {
               </p>
               <HunterNote>
                 I&rsquo;ll tell you which of these your site actually uses (if
-                any) and walk you through moving each one into your accounts. If
-                your site doesn&rsquo;t use any of them, there&rsquo;s nothing to
-                do here.
+                any) and walk you through moving each one into your accounts.
+                Each service also has &ldquo;keys&rdquo; (environment variables)
+                that connect it to your site — those don&rsquo;t move
+                automatically, so I&rsquo;ll re-add them in your new account.
+                That&rsquo;s usually what&rsquo;s behind a red deploy error, and
+                it&rsquo;s a quick fix on my end. If your site doesn&rsquo;t use
+                any of these, there&rsquo;s nothing to do here.
               </HunterNote>
             </StepShell>
 
