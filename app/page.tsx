@@ -135,6 +135,27 @@ function MailLink({ className = "" }: { className?: string }) {
   );
 }
 
+function ExtLink({
+  href,
+  children,
+  className = "",
+}: {
+  href: string;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`font-semibold text-aqua-spark underline decoration-aqua-spark/40 underline-offset-2 hover:decoration-aqua-spark ${className}`}
+    >
+      {children}
+    </a>
+  );
+}
+
 function ServiceCard({
   name,
   icon,
@@ -175,19 +196,28 @@ const TOC = [
 const STEP_IDS = ["step-1", "step-2", "step-3", "step-4", "step-5", "step-6"];
 
 /* Common hang-ups shown when someone clicks "I hit a snag" on a step. */
-const TROUBLE: Record<string, { q: string; a: string }[]> = {
+const TROUBLE: Record<string, { q: string; a: ReactNode }[]> = {
   "step-1": [
     {
       q: "I didn't get the verification email from GitHub.",
-      a: "Check your spam/junk folder first. If it's not there, sign in to github.com, click your avatar → Settings → Emails, and use “Resend verification.” Double-check the address was typed correctly.",
+      a: (
+        <>
+          Check your spam/junk folder first. If it&rsquo;s not there, open your{" "}
+          <ExtLink href="https://github.com/settings/emails">
+            GitHub email settings
+          </ExtLink>{" "}
+          and use &ldquo;Resend verification.&rdquo; Double-check the address was
+          typed correctly.
+        </>
+      ),
     },
     {
       q: "The email asking me to accept the code transfer never arrived.",
       a: "That one only comes after I start the transfer on my end — it's sent from notifications@github.com. Give it a few minutes and check spam. If it's still missing, email me and I'll re-send it.",
     },
     {
-      q: "It's asking me to type the project's name and won't accept it.",
-      a: "Type it exactly as shown, with no extra spaces — easiest is to copy and paste it straight from the on-screen text.",
+      q: "The “Accept transfer” button is greyed out or I don't see it.",
+      a: "That usually means the transfer hasn't reached you yet, or you're signed in to a different GitHub account than the username you sent me. Make sure you're logged in as that account, refresh, and check your email for the invite.",
     },
     {
       q: "My preferred username is already taken.",
@@ -253,7 +283,19 @@ const TROUBLE: Record<string, { q: string; a: string }[]> = {
   "step-6": [
     {
       q: "I can't find where to turn on two-factor authentication.",
-      a: "GitHub: avatar → Settings → Password and authentication. Vercel: avatar → Settings → Authentication. Want to do it together? I'll hop on a screen-share.",
+      a: (
+        <>
+          GitHub: open{" "}
+          <ExtLink href="https://github.com/settings/security">
+            Password and authentication
+          </ExtLink>{" "}
+          (avatar → Settings → Password and authentication). Vercel: open your{" "}
+          <ExtLink href="https://vercel.com/account/authentication">
+            account authentication settings
+          </ExtLink>
+          . Want to do it together? I&rsquo;ll hop on a screen-share.
+        </>
+      ),
     },
     {
       q: "What am I supposed to do with the recovery codes?",
@@ -468,8 +510,9 @@ export default function Home() {
               <ActionBlock tone="you" label="create your account">
                 <ol className="list-decimal space-y-2 pl-5">
                   <li>
-                    Go to <strong>github.com</strong> and click{" "}
-                    <strong>Sign up</strong>.
+                    Go to{" "}
+                    <ExtLink href="https://github.com/signup">github.com</ExtLink>{" "}
+                    and click <strong>Sign up</strong>.
                   </li>
                   <li>
                     Create your account with your long-term email. Choose a
@@ -494,9 +537,10 @@ export default function Home() {
               <ActionBlock tone="you" label="then accept the transfer">
                 <ol className="list-decimal space-y-2 pl-5" start={5}>
                   <li>
-                    Open that email and click the confirmation link. You may be
-                    asked to type the project&rsquo;s name to confirm — just
-                    follow the on-screen instructions. Done.
+                    Open that email and click <strong>Accept this transfer</strong>{" "}
+                    (the button may say &ldquo;Accept&rdquo; or
+                    &ldquo;Confirm&rdquo;). That&rsquo;s it — the code now lives in
+                    your account.
                   </li>
                 </ol>
               </ActionBlock>
@@ -524,8 +568,9 @@ export default function Home() {
               <ActionBlock tone="you" label="sign up and connect GitHub">
                 <ol className="list-decimal space-y-2 pl-5">
                   <li>
-                    Go to <strong>vercel.com</strong> and click{" "}
-                    <strong>Sign Up</strong>.
+                    Go to{" "}
+                    <ExtLink href="https://vercel.com/signup">vercel.com</ExtLink>{" "}
+                    and click <strong>Sign Up</strong>.
                   </li>
                   <li>
                     Choose <strong>&ldquo;Continue with GitHub&rdquo;</strong> —
@@ -578,8 +623,15 @@ export default function Home() {
               <WhatItIs>
                 Your domain is your address on the internet — the thing people
                 type to reach your site. It&rsquo;s registered through a company
-                called a &ldquo;registrar&rdquo; (such as GoDaddy, Namecheap,
-                Google Domains, or Vercel itself).
+                called a &ldquo;registrar&rdquo; (such as{" "}
+                <ExtLink href="https://www.godaddy.com">GoDaddy</ExtLink>,{" "}
+                <ExtLink href="https://www.namecheap.com">Namecheap</ExtLink>,{" "}
+                <ExtLink href="https://www.cloudflare.com/products/registrar/">
+                  Cloudflare
+                </ExtLink>
+                , or{" "}
+                <ExtLink href="https://vercel.com/domains">Vercel</ExtLink>{" "}
+                itself).
               </WhatItIs>
               <p className="text-[15px] leading-7 text-off-white/80">
                 What happens here depends on who currently owns the domain —
